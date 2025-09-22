@@ -3,21 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Models\Task;
+use App\Repositories\TaskRepository;
 
 class TaskController extends Controller
 {
-    /**
-     * コンストラクタ
-     *
-     * @return void
-     */
-    public function __construct()
+    protected $tasks;
+
+    public function __construct(TaskRepository $tasks)
     {
         $this->middleware('auth');
+        $this->tasks = $tasks;
     }
-
     /**
      * タスク一覧
      *
@@ -26,8 +23,7 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-        //$tasks = Task::orderBy('created_at', 'asc')->get();
-        $tasks = $request->user()->tasks()->get();
+        $tasks = $this->tasks->forUser($request->user());
         return view('tasks.index', [
             'tasks' => $tasks,
         ]);
@@ -56,16 +52,15 @@ class TaskController extends Controller
     /**
      * タスク削除
      *
-     * @param Request $request
-     * @param Task $task
+     * @param int $taskId
      * @return Response
      */
     public function delete($taskId)
     {
         $task = Task::findOrFail($taskId);
+
         $this->authorize('delete', $task);
         $task->delete();
-
 
         return redirect('/tasks');
     }
