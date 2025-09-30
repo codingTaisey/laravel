@@ -169,4 +169,16 @@ class QuizController extends Controller
         // ここでは一覧表示用のルート '/quiz3' にリダイレクトすると仮定
         return redirect('/quiz3');
     }
+    public function quiz12_delete($id)
+    {
+        // ① 削除対象のデータを検索する
+        $quiz = Quiz::findOrFail($id);
+
+        // ② delete関数で削除処理を行う
+        $quiz->delete();
+
+        // ③ quiz3.blade.phpが開かれるようにリダイレクト
+        // 一覧表示用のルート '/quiz3' にリダイレクトすると仮定
+        return redirect('/quiz3');
+    }
 } // クラスの定義はここで閉じます

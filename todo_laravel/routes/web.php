@@ -88,3 +88,4 @@ Route::get('/quiz11/all', [QuizController::class, 'quiz11_show_all']);
 Route::get('/quiz11/get', [QuizController::class, 'quiz11_show_get']);
 Route::get('/quiz12/{id}', [QuizController::class, 'quiz12_show'])->name('quiz12_test');
 Route::post('/quiz12/update/{id}', [QuizController::class, 'quiz12_update']);
+Route::get('/quiz12/delete/{id}', [QuizController::class, 'quiz12_delete'])->name('quiz12_test3');
